@@ -6,7 +6,6 @@ name="stathubs-oxid"
 
 cd "$(dirname "$0")/.."
 mkdir -p dist
-rm -f "dist/$name.zip" "dist/$name.zip.sha256"
+rm -f "dist/$name.zip"
 git archive --format=zip --output="dist/$name.zip" "$ref"
-(cd dist && shasum -a 256 "$name.zip" > "$name.zip.sha256")
 echo "dist/$name.zip"

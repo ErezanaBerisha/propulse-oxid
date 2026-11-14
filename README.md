@@ -28,13 +28,7 @@ Professional and Enterprise Editions and sub-shops have not been tested yet.
 
 ## Download
 
-Download `stathubs-oxid.zip` from the [Releases](../../releases) page of this repository. Each release also includes a `.sha256` checksum file.
-
-Check the download (optional):
-
-```sh
-shasum -a 256 -c stathubs-oxid.zip.sha256
-```
+Download `stathubs-oxid.zip` from the [Releases](../../releases) page of this repository.
 
 ## Installation
 

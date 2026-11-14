@@ -37,7 +37,6 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" \
             dist/stathubs-oxid.zip \
-            dist/stathubs-oxid.zip.sha256 \
             --draft \
             --title "StatHubs for OXID eShop ${GITHUB_REF_NAME}" \
             --notes-file ".github/release-notes/$GITHUB_REF_NAME.md"
