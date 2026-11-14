@@ -1,0 +1,32 @@
+{
+    "name": "solu1/stathubs",
+    "description": "Creates StatHubs credentials for OXID eShop and shows the shop URL, email, password and a QR code the mobile app can scan.",
+    "type": "oxideshop-module",
+    "keywords": [
+        "oxid",
+        "modules",
+        "stathubs"
+    ],
+    "license": "proprietary",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Profihost GmbH",
+            "homepage": "https://stathubs.com/"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "oxid-esales/oxideshop-ce": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Solu1\\StatHubs\\": "src/"
+        }
+    },
+    "extra": {
+        "oxideshop": {
+            "target-directory": "solu1/stathubs"
+        }
+    }
+}

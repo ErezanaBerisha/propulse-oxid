@@ -1,0 +1,65 @@
+.stathubs-layout {
+    max-width: 720px;
+    padding: 12px 8px 24px;
+}
+
+.stathubs-card {
+    background: #fff;
+    border: 1px solid #d1d9e0;
+    border-radius: 4px;
+    padding: 8px 20px 20px;
+    margin-bottom: 16px;
+}
+
+.stathubs-card h1,
+.stathubs-card h2 {
+    margin: 16px 0 8px;
+    font-size: 16px;
+}
+
+.stathubs-help {
+    margin: 0 0 16px;
+    color: #50575e;
+}
+
+.stathubs-field {
+    display: block;
+    margin: 0 0 12px;
+}
+
+.stathubs-field > span:first-child {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.stathubs-field__row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.stathubs-field input {
+    flex: 1;
+    min-width: 0;
+    font-family: Consolas, Monaco, monospace;
+}
+
+.stathubs-copy {
+    white-space: nowrap;
+}
+
+.stathubs-qr {
+    display: inline-block;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #d1d9e0;
+    border-radius: 8px;
+    line-height: 0;
+}
+
+.stathubs-qr svg {
+    display: block;
+    width: 196px;
+    height: 196px;
+}

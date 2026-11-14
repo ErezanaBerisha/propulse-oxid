@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          composer_version="$(jq -r .version composer.json)"
+          metadata_version="$(php -r '$aModule = []; include "metadata.php"; echo $aModule["version"];')"
+          if [ "$tag" != "$composer_version" ] || [ "$tag" != "$metadata_version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match composer.json ($composer_version) and metadata.php ($metadata_version)"
+            exit 1
+          fi
+          test -f ".github/release-notes/$GITHUB_REF_NAME.md"
+
+      - name: Check PHP syntax
+        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Build ZIP
+        run: ./bin/build-zip.sh "$GITHUB_REF_NAME"
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/stathubs-oxid.zip \
+            dist/stathubs-oxid.zip.sha256 \
+            --draft \
+            --title "StatHubs for OXID eShop ${GITHUB_REF_NAME}" \
+            --notes-file ".github/release-notes/$GITHUB_REF_NAME.md"
