@@ -22,47 +22,37 @@ Professional and Enterprise Editions and sub-shops have not been tested yet.
 
 ## Requirements
 
-- Shell (SSH) access to the server and permission to run `composer` and `vendor/bin/oe-console`.
+- Shell (SSH) access to the server. If you don't have it, send this page to your developer or hosting provider.
 - The shop must be reachable over **HTTPS** from the internet. The StatHubs servers call `https://<your-shop>/index.php?cl=stathubs_api`.
 - That URL must not be blocked by a firewall, WAF or basic-auth protection for the StatHubs servers.
 
-## Download
-
-Download `stathubs-oxid.zip` from the [Releases](../../releases) page of this repository.
-
 ## Installation
 
-> OXID eShop cannot install a module from a ZIP uploaded in the admin panel. Installation needs the command line, either with Composer or by hand. Activation can then be done in the admin panel. If you don't have shell access, ask your hosting provider or agency to do the installation steps.
-
-Back up your database and code first. Run all commands from the shop root directory (the folder that contains `composer.json`, `source/` and `vendor/`), as the user that owns the shop files.
-
-Choose **one** of the two methods.
-
-### Method A: Composer (recommended)
+Run these commands in the shop root directory (the folder that contains `composer.json`, `source/` and `vendor/`), as the user that owns the shop files:
 
 ```sh
-mkdir -p artifacts
-cp /path/to/stathubs-oxid.zip artifacts/
-composer config repositories.stathubs artifact ./artifacts
-composer require solu1/stathubs:^1.0
+composer require solu1/stathubs
+vendor/bin/oe-console oe:module:activate solu1stathubs
 ```
 
-Composer installs the module through the OXID Composer plugin. If **StatHubs** does not appear under **Extensions → Modules** afterwards, register it by hand:
+That's it. Continue with [Connect the shop to StatHubs](#connect-the-shop-to-stathubs).
 
-```sh
-vendor/bin/oe-console oe:module:install vendor/solu1/stathubs
-```
+- Instead of the second command, you can activate the module in the admin under **Extensions → Modules → StatHubs → Activate**.
+- For a sub-shop, add `--shop-id=<id>` to the activate command.
+- OXID eShop cannot install modules from a ZIP uploaded in the admin panel.
 
-### Method B: Copy into `source/modules`
+### Without Composer (ZIP)
 
-1. Extract the module:
+1. Download `stathubs-oxid.zip` from the [Releases](../../releases) page.
+2. Extract it into `source/modules/solu1/stathubs`:
 
    ```sh
    mkdir -p source/modules/solu1/stathubs
-   unzip /path/to/stathubs-oxid.zip -d source/modules/solu1/stathubs
+   unzip stathubs-oxid.zip -d source/modules/solu1/stathubs
    ```
 
-2. Add the module's namespace to the `autoload` section of the shop's root `composer.json`:
+   `source/modules/solu1/stathubs/metadata.php` must exist afterwards.
+3. Add the module's namespace to the `autoload` section of the shop's root `composer.json`:
 
    ```json
    "autoload": {
@@ -72,27 +62,13 @@ vendor/bin/oe-console oe:module:install vendor/solu1/stathubs
    }
    ```
 
-3. Register the module:
+4. Register and activate the module:
 
    ```sh
    composer dump-autoload
    vendor/bin/oe-console oe:module:install source/modules/solu1/stathubs
+   vendor/bin/oe-console oe:module:activate solu1stathubs
    ```
-
-## Activation
-
-You can activate the module either in the admin panel or on the command line.
-
-- **Admin panel:** go to **Extensions → Modules**, choose **StatHubs**, and click **Activate**.
-- **Command line:**
-
-  ```sh
-  vendor/bin/oe-console oe:module:activate solu1stathubs
-  ```
-
-  For a sub-shop, add `--shop-id=<id>`.
-
-Activating the module creates the StatHubs credentials.
 
 ## Connect the shop to StatHubs
 
@@ -128,52 +104,46 @@ Each order contains only these fields from `oxorder`: `OXID`, `OXORDERNR`, `OXOR
 
 ### Rotate the password
 
-The module has no button to create a new password yet. To get new credentials, remove the module configuration and install it again. The commands below are for Method A. For Method B, use `source/modules/solu1/stathubs` as the path:
+The module has no button to create a new password yet. To get new credentials, remove the module configuration and install it again:
 
 ```sh
 vendor/bin/oe-console oe:module:deactivate solu1stathubs
 vendor/bin/oe-console oe:module:uninstall solu1stathubs
 vendor/bin/oe-console oe:module:install vendor/solu1/stathubs
 vendor/bin/oe-console oe:module:activate solu1stathubs
+vendor/bin/oe-console oe:cache:clear
 ```
+
+If you installed from the ZIP, use `source/modules/solu1/stathubs` instead of `vendor/solu1/stathubs`.
 
 Then reconnect the shop in the StatHubs app with the new QR code.
 
 ## Update
 
-Download the new ZIP from the Releases page first.
-
-**Method A (Composer):** replace the ZIP in `artifacts/` with the new one, then:
+**Installed with Composer:**
 
 ```sh
 composer update solu1/stathubs
+vendor/bin/oe-console oe:cache:clear
 ```
 
-**Method B (`source/modules`):** replace the folder contents:
+**Installed from the ZIP:** download the new ZIP, replace the contents of `source/modules/solu1/stathubs` with it, then run `composer dump-autoload` and `vendor/bin/oe-console oe:cache:clear`.
 
-```sh
-rm -rf source/modules/solu1/stathubs
-mkdir -p source/modules/solu1/stathubs
-unzip /path/to/stathubs-oxid.zip -d source/modules/solu1/stathubs
-composer dump-autoload
-```
-
-Your existing StatHubs credentials are kept. Deactivate and reactivate the module if the release notes ask you to.
+Your existing StatHubs credentials are kept.
 
 ## Uninstall
 
 First deactivate the module (**Extensions → Modules → StatHubs → Deactivate**, or `vendor/bin/oe-console oe:module:deactivate solu1stathubs`).
 
-**Method A (Composer):**
+**Installed with Composer:**
 
 ```sh
 composer remove solu1/stathubs
-composer config --unset repositories.stathubs
 ```
 
-The OXID Composer plugin removes the module configuration, including the stored credentials.
+This removes the code and the module configuration, including the stored credentials.
 
-**Method B (`source/modules`):**
+**Installed from the ZIP:**
 
 ```sh
 vendor/bin/oe-console oe:module:uninstall solu1stathubs
@@ -187,13 +157,13 @@ Finally, remove the shop in the StatHubs app.
 ## Troubleshooting
 
 **StatHubs is not listed under Extensions → Modules.**
-Run `vendor/bin/oe-console oe:module:install <module path>` (see [Installation](#installation)). For Method B, check that the autoload entry was added and that `composer dump-autoload` was run.
+Run `vendor/bin/oe-console oe:cache:clear`. If you installed from the ZIP, check that the autoload entry was added, that `composer dump-autoload` was run, and run `vendor/bin/oe-console oe:module:install source/modules/solu1/stathubs`.
 
 **Activation fails with a "class not found" error.**
-The `Solu1\StatHubs\` namespace is not autoloaded. For Method A, run `composer dump-autoload`. For Method B, check the `autoload` entry in the shop's `composer.json`.
+The `Solu1\StatHubs\` namespace is not autoloaded. Run `composer dump-autoload`. If you installed from the ZIP, also check the `autoload` entry in the shop's `composer.json`.
 
 **Extensions → StatHubs is missing after activation.**
-Clear the shop cache, then sign out of the admin and sign in again.
+Run `vendor/bin/oe-console oe:cache:clear`, then sign out of the admin and sign in again.
 
 **The StatHubs app cannot connect.**
 Test the endpoint from your computer. `curl` asks for the password, so the password doesn't end up in your shell history:
