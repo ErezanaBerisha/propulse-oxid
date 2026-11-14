@@ -12,7 +12,7 @@ $aModule = [
         'de' => 'Erstellt Zugangsdaten für die StatHubs-App. Die Einstellungen zeigen Shop-URL, E-Mail, Passwort und einen QR-Code zum Verbinden.',
         'en' => 'Creates credentials for the StatHubs app. Settings show the shop URL, email, password and a QR code the mobile app can scan to connect.',
     ],
-    'version' => '1.0.0',
+    'version' => '1.0.1',
     'author' => 'Profihost GmbH',
     'url' => 'https://stathubs.com/',
     'email' => 'info@profihost.com',

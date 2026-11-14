@@ -31,7 +31,7 @@ Professional and Enterprise Editions and sub-shops have not been tested yet.
 Run these commands in the shop root directory (the folder that contains `composer.json`, `source/` and `vendor/`), as the user that owns the shop files:
 
 ```sh
-composer require solu1/stathubs
+composer require stathubs/oxid
 vendor/bin/oe-console oe:module:activate solu1stathubs
 ```
 
@@ -109,12 +109,12 @@ The module has no button to create a new password yet. To get new credentials, r
 ```sh
 vendor/bin/oe-console oe:module:deactivate solu1stathubs
 vendor/bin/oe-console oe:module:uninstall solu1stathubs
-vendor/bin/oe-console oe:module:install vendor/solu1/stathubs
+vendor/bin/oe-console oe:module:install vendor/stathubs/oxid
 vendor/bin/oe-console oe:module:activate solu1stathubs
 vendor/bin/oe-console oe:cache:clear
 ```
 
-If you installed from the ZIP, use `source/modules/solu1/stathubs` instead of `vendor/solu1/stathubs`.
+If you installed from the ZIP, use `source/modules/solu1/stathubs` instead of `vendor/stathubs/oxid`.
 
 Then reconnect the shop in the StatHubs app with the new QR code.
 
@@ -123,7 +123,7 @@ Then reconnect the shop in the StatHubs app with the new QR code.
 **Installed with Composer:**
 
 ```sh
-composer update solu1/stathubs
+composer update stathubs/oxid
 vendor/bin/oe-console oe:cache:clear
 ```
 
@@ -138,7 +138,7 @@ First deactivate the module (**Extensions → Modules → StatHubs → Deactivat
 **Installed with Composer:**
 
 ```sh
-composer remove solu1/stathubs
+composer remove stathubs/oxid
 ```
 
 This removes the code and the module configuration, including the stored credentials.
