@@ -2,6 +2,12 @@
 
 All notable changes to this module are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-11-19
+
+### Changed
+- Supports all OXID eShop 7 versions (`oxid-esales/oxideshop-ce` ^7.0) instead of 7.5 only.
+- Minimum PHP version lowered from 8.3 to 8.1.
+
 ## [1.0.1] - 2026-11-15
 
 ### Changed
