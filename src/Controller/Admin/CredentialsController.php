@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Solu1\StatHubs\Controller\Admin;
 
 use OxidEsales\Eshop\Application\Controller\Admin\AdminController;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 use Solu1\StatHubs\Service\CredentialProvisioner;
 
 class CredentialsController extends AdminController
@@ -13,7 +14,10 @@ class CredentialsController extends AdminController
     {
         parent::render();
 
-        $credentials = $this->getService(CredentialProvisioner::class)->credentials();
+        $credentials = ContainerFactory::getInstance()
+            ->getContainer()
+            ->get(CredentialProvisioner::class)
+            ->credentials();
         $assets = dirname(__DIR__, 3) . '/assets/src';
 
         $this->addTplParam('stathubsShopUrl', $credentials['shopUrl']);

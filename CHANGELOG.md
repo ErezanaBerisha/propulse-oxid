@@ -2,6 +2,12 @@
 
 All notable changes to this module are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-11-20
+
+### Fixed
+- Extensions → StatHubs page failed to open on OXID eShop 7.0.
+- Order endpoint returned invalid JSON when the shop shows PHP warnings or notices on screen.
+
 ## [1.1.0] - 2026-11-19
 
 ### Changed

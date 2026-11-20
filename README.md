@@ -14,7 +14,7 @@ The module adds no cron jobs, no frontend output, no changes to existing shop cl
 
 | | |
 |---|---|
-| Tested on | OXID eShop Community Edition 7.5.2 (metapackage 7.5.1) with the Twig admin theme, PHP 8.3 |
+| Tested on | OXID eShop Community Edition 7.5.2 (metapackage 7.5.1) with PHP 8.3, and 7.0.5 with PHP 8.1, both with the Twig admin theme |
 | Declared requirement | OXID eShop 7.x (`oxid-esales/oxideshop-ce` ^7.0) with the Twig admin theme, PHP 8.1 or later |
 | Not supported | OXID eShop 6.x and earlier (Smarty admin) |
 
