@@ -36,7 +36,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" \
-            dist/stathubs-oxid.zip \
+            dist/propulse-oxid.zip \
             --draft \
-            --title "StatHubs for OXID eShop ${GITHUB_REF_NAME}" \
+            --title "proPulse for OXID eShop ${GITHUB_REF_NAME}" \
             --notes-file ".github/release-notes/$GITHUB_REF_NAME.md"

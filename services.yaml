@@ -3,5 +3,5 @@ services:
     public: false
     autowire: true
 
-  Solu1\StatHubs\Service\CredentialProvisioner:
+  Solu1\ProPulse\Service\CredentialProvisioner:
     public: true

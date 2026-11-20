@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Solu1\StatHubs\Service;
+namespace Solu1\ProPulse\Service;
 
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ModuleSettingServiceInterface;
-use Solu1\StatHubs\Core\Module;
+use Solu1\ProPulse\Core\Module;
 
 final class CredentialProvisioner
 {
@@ -59,10 +59,10 @@ final class CredentialProvisioner
     {
         $host = parse_url((string) Registry::getConfig()->getShopUrl(), PHP_URL_HOST);
         if (!is_string($host) || !str_contains($host, '.')) {
-            $host = 'stathubs.local';
+            $host = 'propulse.local';
         }
 
-        return 'stathubs-api@' . $host;
+        return 'propulse-api@' . $host;
     }
 
     private function get(string $name): string

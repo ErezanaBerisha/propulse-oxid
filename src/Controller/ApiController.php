@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Solu1\StatHubs\Controller;
+namespace Solu1\ProPulse\Controller;
 
 use OxidEsales\Eshop\Application\Controller\FrontendController;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ModuleSettingServiceInterface;
-use Solu1\StatHubs\Core\Module;
+use Solu1\ProPulse\Core\Module;
 
 /**
- * Read-only order feed for the StatHubs backend.
+ * Read-only order feed for the proPulse backend.
  * Authenticate with the email and password shown in the module settings.
  */
 class ApiController extends FrontendController
@@ -104,8 +104,8 @@ class ApiController extends FrontendController
         }
 
         return [
-            (string) ($_SERVER['HTTP_X_STATHUBS_EMAIL'] ?? ''),
-            (string) ($_SERVER['HTTP_X_STATHUBS_PASSWORD'] ?? ''),
+            (string) ($_SERVER['HTTP_X_PROPULSE_EMAIL'] ?? ''),
+            (string) ($_SERVER['HTTP_X_PROPULSE_PASSWORD'] ?? ''),
         ];
     }
 

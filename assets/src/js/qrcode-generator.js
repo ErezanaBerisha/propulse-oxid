@@ -2287,4 +2287,4 @@ var qrcode = function() {
 
 }();
 
-window.stathubsQrcode = qrcode;
+window.propulseQrcode = qrcode;

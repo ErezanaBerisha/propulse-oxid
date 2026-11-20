@@ -1,7 +1,7 @@
 (function () {
   function markCopied(button) {
     var original = button.textContent;
-    var mount = document.getElementById('stathubs-qr');
+    var mount = document.getElementById('propulse-qr');
     var copied = (mount && mount.getAttribute('data-copied')) || 'Copied';
     button.textContent = copied;
     window.setTimeout(function () {
@@ -26,7 +26,7 @@
     markCopied(button);
   }
 
-  document.querySelectorAll('.stathubs-copy').forEach(function (button) {
+  document.querySelectorAll('.propulse-copy').forEach(function (button) {
     button.addEventListener('click', function () {
       var id = button.getAttribute('data-target');
       var input = id ? document.getElementById(id) : null;
@@ -37,8 +37,8 @@
     });
   });
 
-  var mount = document.getElementById('stathubs-qr');
-  if (!mount || typeof window.stathubsQrcode !== 'function') {
+  var mount = document.getElementById('propulse-qr');
+  if (!mount || typeof window.propulseQrcode !== 'function') {
     return;
   }
 
@@ -52,7 +52,7 @@
   }
 
   var payload = [email, password, shopUrl, String(platformType)].join('|');
-  var code = window.stathubsQrcode(0, 'M');
+  var code = window.propulseQrcode(0, 'M');
   code.addData(payload);
   code.make();
   mount.innerHTML = code.createSvgTag({ cellSize: 4, margin: 8 });

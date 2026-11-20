@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Solu1\StatHubs\Core;
+namespace Solu1\ProPulse\Core;
 
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use Solu1\StatHubs\Service\CredentialProvisioner;
+use Solu1\ProPulse\Service\CredentialProvisioner;
 
 final class ModuleEvents
 {

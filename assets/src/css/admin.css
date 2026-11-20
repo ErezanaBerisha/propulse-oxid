@@ -1,9 +1,9 @@
-.stathubs-layout {
+.propulse-layout {
     max-width: 720px;
     padding: 12px 8px 24px;
 }
 
-.stathubs-card {
+.propulse-card {
     background: #fff;
     border: 1px solid #d1d9e0;
     border-radius: 4px;
@@ -11,45 +11,45 @@
     margin-bottom: 16px;
 }
 
-.stathubs-card h1,
-.stathubs-card h2 {
+.propulse-card h1,
+.propulse-card h2 {
     margin: 16px 0 8px;
     font-size: 16px;
 }
 
-.stathubs-help {
+.propulse-help {
     margin: 0 0 16px;
     color: #50575e;
 }
 
-.stathubs-field {
+.propulse-field {
     display: block;
     margin: 0 0 12px;
 }
 
-.stathubs-field > span:first-child {
+.propulse-field > span:first-child {
     display: block;
     margin-bottom: 4px;
     font-weight: 600;
 }
 
-.stathubs-field__row {
+.propulse-field__row {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-.stathubs-field input {
+.propulse-field input {
     flex: 1;
     min-width: 0;
     font-family: Consolas, Monaco, monospace;
 }
 
-.stathubs-copy {
+.propulse-copy {
     white-space: nowrap;
 }
 
-.stathubs-qr {
+.propulse-qr {
     display: inline-block;
     padding: 12px;
     background: #fff;
@@ -58,7 +58,7 @@
     line-height: 0;
 }
 
-.stathubs-qr svg {
+.propulse-qr svg {
     display: block;
     width: 196px;
     height: 196px;

@@ -1,14 +1,14 @@
 {
-    "name": "stathubs/oxid",
-    "description": "Creates StatHubs credentials for OXID eShop and shows the shop URL, email, password and a QR code the mobile app can scan.",
+    "name": "propulse/oxid",
+    "description": "Creates proPulse credentials for OXID eShop and shows the shop URL, email, password and a QR code the mobile app can scan.",
     "type": "oxideshop-module",
     "keywords": [
         "oxid",
         "modules",
-        "stathubs"
+        "propulse"
     ],
     "license": "proprietary",
-    "version": "1.1.1",
+    "version": "2.0.0",
     "authors": [
         {
             "name": "Profihost GmbH",
@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Solu1\\StatHubs\\": "src/"
+            "Solu1\\ProPulse\\": "src/"
         }
     },
     "extra": {
         "oxideshop": {
-            "target-directory": "solu1/stathubs"
+            "target-directory": "solu1/propulse"
         }
     }
 }

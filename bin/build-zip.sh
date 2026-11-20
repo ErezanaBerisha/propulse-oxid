@@ -2,7 +2,7 @@
 set -eu
 
 ref="${1:-HEAD}"
-name="stathubs-oxid"
+name="propulse-oxid"
 
 cd "$(dirname "$0")/.."
 mkdir -p dist

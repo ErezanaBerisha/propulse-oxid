@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Solu1\StatHubs\Controller\Admin;
+namespace Solu1\ProPulse\Controller\Admin;
 
 use OxidEsales\Eshop\Application\Controller\Admin\AdminController;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use Solu1\StatHubs\Service\CredentialProvisioner;
+use Solu1\ProPulse\Service\CredentialProvisioner;
 
 class CredentialsController extends AdminController
 {
@@ -20,14 +20,14 @@ class CredentialsController extends AdminController
             ->credentials();
         $assets = dirname(__DIR__, 3) . '/assets/src';
 
-        $this->addTplParam('stathubsShopUrl', $credentials['shopUrl']);
-        $this->addTplParam('stathubsEmail', $credentials['email']);
-        $this->addTplParam('stathubsPassword', $credentials['password']);
-        $this->addTplParam('stathubsPlatformType', $credentials['platformType']);
-        $this->addTplParam('stathubsCss', (string) file_get_contents($assets . '/css/admin.css'));
-        $this->addTplParam('stathubsQrJs', (string) file_get_contents($assets . '/js/qrcode-generator.js'));
-        $this->addTplParam('stathubsAdminJs', (string) file_get_contents($assets . '/js/admin.js'));
+        $this->addTplParam('propulseShopUrl', $credentials['shopUrl']);
+        $this->addTplParam('propulseEmail', $credentials['email']);
+        $this->addTplParam('propulsePassword', $credentials['password']);
+        $this->addTplParam('propulsePlatformType', $credentials['platformType']);
+        $this->addTplParam('propulseCss', (string) file_get_contents($assets . '/css/admin.css'));
+        $this->addTplParam('propulseQrJs', (string) file_get_contents($assets . '/js/qrcode-generator.js'));
+        $this->addTplParam('propulseAdminJs', (string) file_get_contents($assets . '/js/admin.js'));
 
-        return '@solu1stathubs/credentials.html.twig';
+        return '@solu1propulse/credentials.html.twig';
     }
 }

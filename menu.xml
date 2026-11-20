@@ -2,8 +2,8 @@
 <OX>
     <OXMENU id="NAVIGATION_ESHOPADMIN">
         <MAINMENU id="mxextensions">
-            <SUBMENU id="mxstathubs" cl="stathubs_credentials">
-                <TAB id="tbclstathubs_credentials" cl="stathubs_credentials" />
+            <SUBMENU id="mxpropulse" cl="propulse_credentials">
+                <TAB id="tbclpropulse_credentials" cl="propulse_credentials" />
             </SUBMENU>
         </MAINMENU>
     </OXMENU>

@@ -2,6 +2,14 @@
 
 All notable changes to this module are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-11-20
+
+### Changed
+- Renamed from StatHubs to proPulse: Composer package `propulse/oxid`, module ID `solu1propulse`, namespace `Solu1\ProPulse`, install folder `solu1/propulse`, admin page **Extensions → proPulse**.
+- Endpoint renamed to `index.php?cl=propulse_api`. `cl=stathubs_api` still works.
+- New credentials use the login `propulse-api@<shop host>`.
+- README shows the proPulse logo.
+
 ## [1.1.1] - 2026-11-20
 
 ### Fixed
