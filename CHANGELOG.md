@@ -2,6 +2,12 @@
 
 All notable changes to this module are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - 2026-11-23
+
+### Added
+- Support for OXID eShop 6.2 to 6.5 (Smarty admin, PHP 7.1 or later), released from the `oxid6` branch. Composer installs it automatically on OXID 6 shops; OXID 7 shops keep getting 2.x.
+- Same features as 2.0.0: proPulse credentials, **Extensions → proPulse** page with QR code, and the read-only endpoint `index.php?cl=propulse_api` (`cl=stathubs_api` also works).
+
 ## [2.0.0] - 2026-11-20
 
 ### Changed
