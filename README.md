@@ -19,13 +19,14 @@ The module adds no cron jobs, no frontend output, no changes to existing shop cl
 
 ## Compatibility
 
-| | |
-|---|---|
-| Tested on | OXID eShop Community Edition 7.5.2 (metapackage 7.5.1) with PHP 8.3, and 7.0.5 with PHP 8.1, both with the Twig admin theme |
-| Declared requirement | OXID eShop 7.x (`oxid-esales/oxideshop-ce` ^7.0) with the Twig admin theme, PHP 8.1 or later |
-| Not supported | OXID eShop 6.x and earlier (Smarty admin) |
+| OXID eShop | Module version | PHP | Tested on |
+|---|---|---|---|
+| 7.x (Twig admin) | 2.x | 8.1 or later | 7.5.2 with PHP 8.3, 7.0.5 with PHP 8.1 |
+| 6.2 to 6.5 (Smarty admin) | 1.9 | 7.1 or later | 6.5.5 with PHP 7.4 |
 
-Professional and Enterprise Editions and sub-shops have not been tested yet.
+You don't have to pick the version. Composer installs the one that matches your shop, and the commands below are the same for OXID 6 and 7.
+
+Not supported: OXID eShop 6.0, 6.1 and earlier. Professional and Enterprise Editions and sub-shops have not been tested yet.
 
 ## Requirements
 
@@ -50,7 +51,7 @@ That's it. Continue with [Connect the shop to proPulse](#connect-the-shop-to-pro
 
 ### Without Composer (ZIP)
 
-1. Download `propulse-oxid.zip` from the [Releases](../../releases) page.
+1. Download `propulse-oxid.zip` from the [Releases](../../releases) page. Take the latest **2.x** release for OXID 7, or the latest **1.9.x** release for OXID 6.
 2. Extract it into `source/modules/solu1/propulse`:
 
    ```sh
@@ -69,11 +70,21 @@ That's it. Continue with [Connect the shop to proPulse](#connect-the-shop-to-pro
    }
    ```
 
-4. Register and activate the module:
+4. Register and activate the module.
+
+   OXID 7:
 
    ```sh
    composer dump-autoload
    vendor/bin/oe-console oe:module:install source/modules/solu1/propulse
+   vendor/bin/oe-console oe:module:activate solu1propulse
+   ```
+
+   OXID 6:
+
+   ```sh
+   composer dump-autoload
+   vendor/bin/oe-console oe:module:install-configuration source/modules/solu1/propulse
    vendor/bin/oe-console oe:module:activate solu1propulse
    ```
 
@@ -104,14 +115,16 @@ Each order contains only these fields from `oxorder`: `OXID`, `OXORDERNR`, `OXOR
 ## Credentials and security
 
 - The password is a random 32-character hexadecimal string, generated on your shop when you activate the module. The package contains no credentials or API keys.
-- OXID stores module settings in the shop's configuration files. The credentials are in `var/configuration/shops/<shop-id>/modules/solu1propulse.yaml`. Keep the `var/` directory out of version control and public web access, as you would for the rest of the shop configuration.
+- OXID stores module settings in the shop's configuration files. On OXID 7 the credentials are in `var/configuration/shops/<shop-id>/modules/solu1propulse.yaml`, on OXID 6 in `var/configuration/shops/<shop-id>.yaml` and the `oxconfig` table. Keep the `var/` directory out of version control and public web access, as you would for the rest of the shop configuration.
 - The password is shown in plain text on **Extensions → proPulse**, so that it can be scanned or copied. Restrict admin access to trusted users.
 - Credentials are compared in constant time. Requests without valid credentials get HTTP 401.
 - **Deactivating the module turns off the endpoint immediately.** proPulse can no longer read data.
 
 ### Rotate the password
 
-The module has no button to create a new password yet. To get new credentials, remove the module configuration and install it again:
+The module has no button to create a new password yet. To get new credentials, remove the module configuration and install it again.
+
+OXID 7:
 
 ```sh
 vendor/bin/oe-console oe:module:deactivate solu1propulse
@@ -123,6 +136,16 @@ vendor/bin/oe-console oe:cache:clear
 
 If you installed from the ZIP, use `source/modules/solu1/propulse` instead of `vendor/propulse/oxid`.
 
+OXID 6:
+
+```sh
+vendor/bin/oe-console oe:module:deactivate solu1propulse
+vendor/bin/oe-console oe:module:uninstall-configuration solu1propulse
+vendor/bin/oe-console oe:module:install-configuration source/modules/solu1/propulse
+vendor/bin/oe-console oe:module:activate solu1propulse
+vendor/bin/oe-console oe:cache:clear
+```
+
 Then reconnect the shop in the proPulse app with the new QR code.
 
 ## Update
@@ -133,6 +156,8 @@ Then reconnect the shop in the proPulse app with the new QR code.
 composer update propulse/oxid
 vendor/bin/oe-console oe:cache:clear
 ```
+
+On OXID 6, Composer asks whether it may overwrite the module files in `source/modules`. Answer `y`. The default is No, so without that answer the shop keeps the old version.
 
 **Installed from the ZIP:** download the new ZIP, replace the contents of `source/modules/solu1/propulse` with it, then run `composer dump-autoload` and `vendor/bin/oe-console oe:cache:clear`.
 
@@ -148,7 +173,7 @@ First deactivate the module (**Extensions → Modules → proPulse → Deactivat
 composer remove propulse/oxid
 ```
 
-This removes the code and the module configuration, including the stored credentials.
+This removes the code and the module configuration, including the stored credentials. Composer may print an `[Error]` about `BackwardsCompatibilityClassMapProvider` while OXID's Composer plugin cleans up. It comes from OXID itself and the module is still removed completely.
 
 **Installed from the ZIP:**
 
@@ -157,6 +182,8 @@ vendor/bin/oe-console oe:module:uninstall solu1propulse
 rm -rf source/modules/solu1/propulse
 ```
 
+On OXID 6, use `oe:module:uninstall-configuration` instead of `oe:module:uninstall`.
+
 Then remove the `Solu1\\ProPulse\\` line from the `autoload` section of the shop's `composer.json`, and run `composer dump-autoload`.
 
 Finally, remove the shop in the proPulse app.
@@ -164,7 +191,7 @@ Finally, remove the shop in the proPulse app.
 ## Troubleshooting
 
 **proPulse is not listed under Extensions → Modules.**
-Run `vendor/bin/oe-console oe:cache:clear`. If you installed from the ZIP, check that the autoload entry was added, that `composer dump-autoload` was run, and run `vendor/bin/oe-console oe:module:install source/modules/solu1/propulse`.
+Run `vendor/bin/oe-console oe:cache:clear`. If you installed from the ZIP, check that the autoload entry was added, that `composer dump-autoload` was run, and run `vendor/bin/oe-console oe:module:install source/modules/solu1/propulse` (OXID 6: `oe:module:install-configuration`).
 
 **Activation fails with a "class not found" error.**
 The `Solu1\ProPulse\` namespace is not autoloaded. Run `composer dump-autoload`. If you installed from the ZIP, also check the `autoload` entry in the shop's `composer.json`.
