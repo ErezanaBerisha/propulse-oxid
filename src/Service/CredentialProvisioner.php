@@ -5,14 +5,27 @@ declare(strict_types=1);
 namespace Solu1\ProPulse\Service;
 
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ModuleSettingServiceInterface;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Bridge\ModuleSettingBridgeInterface;
 use Solu1\ProPulse\Core\Module;
+use Throwable;
 
 final class CredentialProvisioner
 {
-    public function __construct(
-        private readonly ModuleSettingServiceInterface $moduleSettingService
-    ) {
+    private $moduleSettingBridge;
+
+    public function __construct(ModuleSettingBridgeInterface $moduleSettingBridge)
+    {
+        $this->moduleSettingBridge = $moduleSettingBridge;
+    }
+
+    public static function create(): self
+    {
+        return new self(
+            ContainerFactory::getInstance()
+                ->getContainer()
+                ->get(ModuleSettingBridgeInterface::class)
+        );
     }
 
     public function ensure(): void
@@ -23,8 +36,8 @@ final class CredentialProvisioner
         if ($email === '' || $password === '') {
             $email = $this->generateEmail();
             $password = bin2hex(random_bytes(16));
-            $this->moduleSettingService->saveString(Module::SETTING_EMAIL, $email, Module::ID);
-            $this->moduleSettingService->saveString(Module::SETTING_PASSWORD, $password, Module::ID);
+            $this->moduleSettingBridge->save(Module::SETTING_EMAIL, $email, Module::ID);
+            $this->moduleSettingBridge->save(Module::SETTING_PASSWORD, $password, Module::ID);
         }
 
         $this->syncShopUrl();
@@ -37,7 +50,7 @@ final class CredentialProvisioner
             return;
         }
 
-        $this->moduleSettingService->saveString(Module::SETTING_SHOP_URL, $shopUrl, Module::ID);
+        $this->moduleSettingBridge->save(Module::SETTING_SHOP_URL, $shopUrl, Module::ID);
     }
 
     /**
@@ -55,22 +68,24 @@ final class CredentialProvisioner
         ];
     }
 
+    public function get(string $name): string
+    {
+        try {
+            $value = $this->moduleSettingBridge->get($name, Module::ID);
+        } catch (Throwable $e) {
+            return '';
+        }
+
+        return is_scalar($value) ? trim((string) $value) : '';
+    }
+
     private function generateEmail(): string
     {
         $host = parse_url((string) Registry::getConfig()->getShopUrl(), PHP_URL_HOST);
-        if (!is_string($host) || !str_contains($host, '.')) {
+        if (!is_string($host) || strpos($host, '.') === false) {
             $host = 'propulse.local';
         }
 
         return 'propulse-api@' . $host;
-    }
-
-    private function get(string $name): string
-    {
-        if (!$this->moduleSettingService->exists($name, Module::ID)) {
-            return '';
-        }
-
-        return trim($this->moduleSettingService->getString($name, Module::ID)->toString());
     }
 }

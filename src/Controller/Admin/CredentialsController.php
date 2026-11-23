@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Solu1\ProPulse\Controller\Admin;
 
 use OxidEsales\Eshop\Application\Controller\Admin\AdminController;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 use Solu1\ProPulse\Service\CredentialProvisioner;
 
 class CredentialsController extends AdminController
@@ -14,10 +13,7 @@ class CredentialsController extends AdminController
     {
         parent::render();
 
-        $credentials = ContainerFactory::getInstance()
-            ->getContainer()
-            ->get(CredentialProvisioner::class)
-            ->credentials();
+        $credentials = CredentialProvisioner::create()->credentials();
         $assets = dirname(__DIR__, 3) . '/assets/src';
 
         $this->addTplParam('propulseShopUrl', $credentials['shopUrl']);
@@ -28,6 +24,6 @@ class CredentialsController extends AdminController
         $this->addTplParam('propulseQrJs', (string) file_get_contents($assets . '/js/qrcode-generator.js'));
         $this->addTplParam('propulseAdminJs', (string) file_get_contents($assets . '/js/admin.js'));
 
-        return '@solu1propulse/credentials.html.twig';
+        return 'propulse_credentials.tpl';
     }
 }

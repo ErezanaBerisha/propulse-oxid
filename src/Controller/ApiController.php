@@ -7,9 +7,8 @@ namespace Solu1\ProPulse\Controller;
 use OxidEsales\Eshop\Application\Controller\FrontendController;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ModuleSettingServiceInterface;
 use Solu1\ProPulse\Core\Module;
+use Solu1\ProPulse\Service\CredentialProvisioner;
 
 /**
  * Read-only order feed for the proPulse backend.
@@ -79,9 +78,10 @@ class ApiController extends FrontendController
     private function authorized(): bool
     {
         [$email, $password] = $this->presentedCredentials();
+        $settings = CredentialProvisioner::create();
 
-        return $this->same($this->setting(Module::SETTING_EMAIL), $email)
-            && $this->same($this->setting(Module::SETTING_PASSWORD), $password);
+        return $this->same($settings->get(Module::SETTING_EMAIL), $email)
+            && $this->same($settings->get(Module::SETTING_PASSWORD), $password);
     }
 
     /**
@@ -96,9 +96,9 @@ class ApiController extends FrontendController
         }
 
         $header = (string) ($_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '');
-        if (str_starts_with($header, 'Basic ')) {
+        if (strncmp($header, 'Basic ', 6) === 0) {
             $decoded = base64_decode(substr($header, 6), true);
-            if (is_string($decoded) && str_contains($decoded, ':')) {
+            if (is_string($decoded) && strpos($decoded, ':') !== false) {
                 return explode(':', $decoded, 2);
             }
         }
@@ -107,19 +107,6 @@ class ApiController extends FrontendController
             (string) ($_SERVER['HTTP_X_PROPULSE_EMAIL'] ?? ''),
             (string) ($_SERVER['HTTP_X_PROPULSE_PASSWORD'] ?? ''),
         ];
-    }
-
-    private function setting(string $name): string
-    {
-        $settings = ContainerFactory::getInstance()
-            ->getContainer()
-            ->get(ModuleSettingServiceInterface::class);
-
-        if (!$settings->exists($name, Module::ID)) {
-            return '';
-        }
-
-        return trim($settings->getString($name, Module::ID)->toString());
     }
 
     private function same(string $known, string $given): bool
